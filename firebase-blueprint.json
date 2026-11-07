@@ -1,0 +1,99 @@
+{
+  "entities": {
+    "DaySchedule": {
+      "title": "DaySchedule",
+      "description": "User's daily schedule containing Rule of 3 priorities and batched time blocks.",
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "description": "ISO date string YYYY-MM-DD"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "User UID who owns this schedule"
+        },
+        "templateId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Optional ID of the applied template"
+        },
+        "templateName": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Optional name of the applied template"
+        },
+        "ruleOfThree": {
+          "type": "array",
+          "description": "Up to 3 high impact daily priorities"
+        },
+        "blocks": {
+          "type": "array",
+          "description": "Scheduled time blocks with batched tasks"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Server timestamp of last update"
+        }
+      },
+      "required": ["date", "userId", "ruleOfThree", "blocks"]
+    },
+    "ScheduleTemplate": {
+      "title": "ScheduleTemplate",
+      "description": "User's reusable weekly schedule template for school or work days.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Unique template identifier"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "User UID who owns this template"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Template title (e.g. School Day)"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Guidance on when to use this template"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["school", "work", "hybrid", "custom"],
+          "description": "Domain of the template"
+        },
+        "blocks": {
+          "type": "array",
+          "description": "Template time blocks"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Server timestamp of last update"
+        }
+      },
+      "required": ["id", "userId", "name", "type", "blocks"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/schedules/{dateISO}": {
+      "schema": {
+        "$ref": "#/entities/DaySchedule"
+      },
+      "description": "User-isolated day schedules keyed by ISO date"
+    },
+    "/users/{userId}/templates/{templateId}": {
+      "schema": {
+        "$ref": "#/entities/ScheduleTemplate"
+      },
+      "description": "User-isolated reusable schedule templates"
+    }
+  }
+}

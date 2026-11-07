@@ -1,0 +1,6 @@
+{
+  "name": "Tempo | Rule of 3 & Flexible Schedule Planner",
+  "description": "Production productivity and time management app with reusable school and work templates, daily Rule of 3 tracking, batched task time blocks, overbooking prevention, and 4-week calendar review.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
